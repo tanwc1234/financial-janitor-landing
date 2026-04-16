@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Financial Janitor</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#050505;--border:#242424;--accent:#39FF14;--text:#fff;--muted:#888;--font:'Space Grotesk',sans-serif}
+body{background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
+nav{padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.logo{font-weight:700;font-size:1.1rem;letter-spacing:-.02em;text-decoration:none;color:var(--text)}.logo span{color:var(--accent)}
+nav a.back{color:var(--muted);text-decoration:none;font-size:.875rem}.nav a.back:hover{color:var(--accent)}
+.content{max-width:700px;margin:0 auto;padding:3rem 2rem 6rem}
+.content h1{font-size:2rem;font-weight:700;margin-bottom:.5rem}
+.content .updated{font-size:.85rem;color:var(--muted);margin-bottom:2.5rem}
+.content h2{font-size:1.2rem;font-weight:600;margin-top:2.5rem;margin-bottom:.75rem;color:var(--accent)}
+.content p,.content li{font-size:.95rem;color:var(--muted);line-height:1.75;margin-bottom:1rem}
+.content ul{padding-left:1.5rem;margin-bottom:1rem}.content li{margin-bottom:.5rem}
+.content a{color:var(--accent);text-decoration:none}.content a:hover{text-decoration:underline}
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-size:.75rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<nav><a href="index.html" class="logo">Financial<span>Janitor</span></a><a href="index.html" class="back">&larr; Back to home</a></nav>
+<div class="content">
+<h1>Privacy Policy</h1>
+<p class="updated">Last updated: April 5, 2026</p>
+<p>Financial Janitor ("we", "our", "us") operates the Financial Janitor mobile and web application (the "Service"). This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service.</p>
+<h2>Information we collect</h2>
+<p>We collect information you provide directly, including your email address when creating an account through Firebase Authentication, and financial transaction data when you connect a bank account via Plaid.</p>
+<p>When you connect a bank account, Plaid provides us with transaction data (merchant names, amounts, dates, categories). We never receive or store your bank login credentials — Plaid handles authentication directly.</p>
+<h2>How we use your information</h2>
+<p>We use your information to provide and improve the Service, including:</p>
+<ul>
+<li>Displaying your transaction history and subscription tracking</li>
+<li>AI-powered categorization of expenses using Google Gemini (via Firebase AI Logic)</li>
+<li>Generating IRS Schedule C estimates (not tax advice)</li>
+<li>Receipt OCR processing for expense documentation</li>
+<li>Sending you alerts about recurring charges (Ghost Shield)</li>
+</ul>
+<h2>Data sharing</h2>
+<p>We do not sell, rent, or trade your personal information to third parties. We share data only with service providers necessary to operate the Service:</p>
+<ul>
+<li><strong>Firebase (Google)</strong> — authentication, database, cloud functions, analytics, AI processing</li>
+<li><strong>Plaid</strong> — bank account connectivity and transaction data</li>
+</ul>
+<h2>Data security</h2>
+<p>We implement industry-standard security measures including Firebase App Check enforcement, encrypted data transmission (TLS), per-user Firestore security rules, and server-side access token handling for bank data.</p>
+<h2>Data retention</h2>
+<p>Your financial data is retained in your account until you request deletion. You may delete your account and all associated data at any time by contacting us.</p>
+<h2>Your rights (CCPA)</h2>
+<p>If you are a California resident, you have the right to know what personal information we collect, request deletion of your data, and opt out of the sale of personal information (we do not sell your data). To exercise these rights, contact us at <a href="mailto:support.financialjanitor@gmail.com">support.financialjanitor@gmail.com</a>.</p>
+<h2>Children's privacy</h2>
+<p>Our Service is not directed to anyone under the age of 18. We do not knowingly collect personal information from children.</p>
+<h2>Changes to this policy</h2>
+<p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last updated" date.</p>
+<h2>Contact us</h2>
+<p>If you have questions about this Privacy Policy, contact us at <a href="mailto:support.financialjanitor@gmail.com">support.financialjanitor@gmail.com</a>.</p>
+</div>
+<footer>&copy; 2026 Financial Janitor. All rights reserved.</footer>
+</body>
+</html>

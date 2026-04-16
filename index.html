@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financial Janitor — Kill Subscriptions, Build Wealth</title>
+<meta name="description" content="The fintech app for US freelancers. Track wasted subscriptions, calculate IRS Schedule C deductions, and build wealth.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#050505;--card:#0C0C0C;--border:#242424;--accent:#39FF14;--amber:#F59E0B;--text:#fff;--muted:#888;--font:'Space Grotesk',sans-serif;--mono:'JetBrains Mono',monospace}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);background:rgba(5,5,5,.85);border-bottom:1px solid rgba(57,255,20,.08)}
+.logo{font-weight:700;font-size:1.1rem;letter-spacing:-.02em}.logo span{color:var(--accent)}
+nav a{color:var(--muted);text-decoration:none;font-size:.875rem;transition:color .2s}nav a:hover{color:var(--accent)}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-cta{background:var(--accent);color:#050505;padding:.5rem 1.25rem;border-radius:6px;font-weight:600;font-size:.875rem;transition:all .2s}.nav-cta:hover{background:#2ee00f;color:#050505}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:8rem 2rem 6rem;position:relative}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(57,255,20,.06) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--border);padding:.4rem 1rem;border-radius:100px;font-size:.8rem;color:var(--muted);margin-bottom:2rem}
+.hero-badge .dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;line-height:1.05;letter-spacing:-.03em;max-width:800px;margin-bottom:1.5rem}.hero h1 .accent{color:var(--accent)}
+.hero p{font-size:1.15rem;color:var(--muted);max-width:520px;line-height:1.6;margin-bottom:2.5rem}
+.hero-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#050505;padding:.85rem 2rem;border-radius:8px;font-weight:600;font-size:1rem;text-decoration:none;transition:all .25s;border:none;cursor:pointer}.hero-cta:hover{background:#2ee00f;transform:translateY(-2px);box-shadow:0 0 30px rgba(57,255,20,.3)}
+.hero-sub{font-size:.8rem;color:var(--muted);margin-top:1rem}
+.leak{padding:4rem 2rem;text-align:center}
+.leak-box{max-width:600px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:3rem 2rem;position:relative;overflow:hidden}
+.leak-box::after{content:'';position:absolute;top:-1px;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent)}
+.leak-label{font-size:.85rem;color:var(--amber);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem}
+.leak-number{font-family:var(--mono);font-size:3.5rem;font-weight:700;color:var(--amber)}
+.leak-sub{font-size:.95rem;color:var(--muted);margin-top:.75rem}
+.section-header{text-align:center;margin-bottom:4rem}.section-header h2{font-size:2.2rem;font-weight:700;letter-spacing:-.02em;margin-bottom:1rem}.section-header p{color:var(--muted);max-width:500px;margin:0 auto;font-size:1rem}
+.features{padding:6rem 2rem}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem;transition:all .3s;position:relative;overflow:hidden}
+.feature-card:hover{border-color:rgba(57,255,20,.25);transform:translateY(-4px)}
+.feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(57,255,20,.2),transparent);opacity:0;transition:opacity .3s}.feature-card:hover::before{opacity:1}
+.feature-icon{width:40px;height:40px;border-radius:10px;background:rgba(57,255,20,.08);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;font-size:1.1rem}
+.feature-card h3{font-size:1.05rem;font-weight:600;margin-bottom:.6rem}.feature-card p{font-size:.875rem;color:var(--muted);line-height:1.6}
+.pricing{padding:6rem 2rem}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;max-width:900px;margin:0 auto}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:2rem;position:relative}
+.price-card.featured{border-color:var(--accent)}.price-card.featured::before{content:'MOST POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#050505;font-size:.65rem;font-weight:700;padding:.3rem .8rem;border-radius:100px;letter-spacing:.08em}
+.price-tier{font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.price-amount{font-size:2.5rem;font-weight:700;margin-bottom:.25rem}.price-amount span{font-size:1rem;color:var(--muted);font-weight:400}
+.price-desc{font-size:.85rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.5}
+.price-features{list-style:none;margin-bottom:2rem}.price-features li{font-size:.85rem;color:var(--muted);padding:.4rem 0;display:flex;align-items:center;gap:.5rem}.price-features li::before{content:'✓';color:var(--accent);font-weight:700;font-size:.75rem}
+.price-btn{width:100%;padding:.75rem;border-radius:8px;font-weight:600;font-size:.875rem;cursor:pointer;transition:all .2s;font-family:var(--font);border:none}
+.price-btn.primary{background:var(--accent);color:#050505}.price-btn.primary:hover{background:#2ee00f}
+.price-btn.outline{background:transparent;border:1px solid var(--border);color:var(--text)}.price-btn.outline:hover{border-color:var(--accent);color:var(--accent)}
+.roadmap{padding:6rem 2rem}
+.roadmap-timeline{max-width:600px;margin:0 auto;position:relative;padding-left:32px}
+.roadmap-timeline::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:var(--border)}
+.roadmap-item{position:relative;margin-bottom:2.5rem}.roadmap-item:last-child{margin-bottom:0}
+.roadmap-dot{position:absolute;left:-32px;top:4px;width:16px;height:16px;border-radius:50%;border:2px solid var(--border);background:var(--bg)}
+.roadmap-item.done .roadmap-dot{background:var(--accent);border-color:var(--accent)}
+.roadmap-item.next .roadmap-dot{background:var(--amber);border-color:var(--amber)}
+.roadmap-phase{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem}
+.roadmap-title{font-size:1rem;font-weight:600;margin-bottom:.35rem}
+.roadmap-desc{font-size:.85rem;color:var(--muted);line-height:1.5}
+.roadmap-tag{display:inline-block;font-size:.7rem;padding:.15rem .5rem;border-radius:100px;margin-top:.4rem}
+.tag-done{background:rgba(57,255,20,.1);color:var(--accent)}.tag-building{background:rgba(245,158,11,.1);color:var(--amber)}.tag-soon{background:rgba(136,136,136,.15);color:var(--muted)}
+.trust{padding:4rem 2rem;text-align:center}
+.trust-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:2.5rem;max-width:800px;margin:0 auto}
+.trust-item{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--muted)}
+.bottom-cta{padding:6rem 2rem;text-align:center}.bottom-cta h2{font-size:2rem;font-weight:700;margin-bottom:1rem;letter-spacing:-.02em}.bottom-cta p{color:var(--muted);max-width:450px;margin:0 auto 2rem;font-size:1rem}
+footer{border-top:1px solid var(--border);padding:2.5rem 2rem;max-width:1000px;margin:0 auto}
+.footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:2rem;margin-bottom:2rem}
+.footer-brand p{font-size:.8rem;color:var(--muted);max-width:250px;line-height:1.5;margin-top:.5rem}
+.footer-links{display:flex;gap:3rem}
+.footer-col h4{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem}
+.footer-col a{display:block;font-size:.85rem;color:var(--muted);text-decoration:none;margin-bottom:.5rem;transition:color .2s}.footer-col a:hover{color:var(--accent)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:1.5rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem}
+.footer-bottom p{font-size:.75rem;color:var(--muted)}
+.footer-disclaimer{font-size:.7rem;color:#555;max-width:600px;line-height:1.5}
+.fade-up{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.16,1,.3,1)}.fade-up.visible{opacity:1;transform:translateY(0)}
+@media(max-width:768px){nav{padding:1rem}.nav-links{gap:1rem}.hero{padding:7rem 1.5rem 4rem}.features-grid,.pricing-grid{grid-template-columns:1fr}.leak-number{font-size:2.5rem}.footer-links{gap:2rem}.footer-top{flex-direction:column}}
+@media(max-width:480px){.nav-links a:not(.nav-cta){display:none}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">Financial<span>Janitor</span></div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#roadmap">Roadmap</a>
+    <a class="nav-cta" href="#cta">Get Early Access</a>
+  </div>
+</nav>
+<section class="hero">
+  <div class="hero-badge"><span class="dot"></span> Built for US freelancers &amp; 1099 contractors</div>
+  <h1>Stop <span class="accent">leaking money.</span><br>Start building wealth.</h1>
+  <p>Track wasted subscriptions, scan IRS Schedule C deductions with AI, and see exactly where your freelance income goes.</p>
+  <a href="#cta" class="hero-cta">Join the Waitlist &#8594;</a>
+  <div class="hero-sub">Free to start · No credit card required</div>
+</section>
+<section class="leak fade-up">
+  <div class="leak-box">
+    <div class="leak-label">&#9888; Average freelancer wastes per year</div>
+    <div class="leak-number" id="leakCounter">$0</div>
+    <div class="leak-sub">in forgotten subscriptions, duplicate services &amp; ghost charges</div>
+  </div>
+</section>
+<section class="features" id="features">
+  <div class="section-header fade-up">
+    <h2>Your money deserves a janitor</h2>
+    <p>One app that tracks leaks, scans taxes, and builds your wealth projection — built for the way freelancers actually work.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card fade-up"><div class="feature-icon">&#128279;</div><h3>Plaid Bank Sync</h3><p>Securely link your US bank accounts via Plaid. We never see your login credentials — bank-level encryption.</p></div>
+    <div class="feature-card fade-up"><div class="feature-icon" style="background:rgba(245,158,11,.1);color:var(--amber)">&#128123;</div><h3>Ghost Shield</h3><p>Auto-detect recurring charges you forgot about. Get alerts before ghost subscriptions drain your account.</p></div>
+    <div class="feature-card fade-up"><div class="feature-icon">&#129302;</div><h3>AI Tax Scanner</h3><p>Gemini-powered Schedule C categorization. Identify potential deductions and export directly to your CPA.</p></div>
+    <div class="feature-card fade-up"><div class="feature-icon">&#128202;</div><h3>Wealth Projection</h3><p>See where your money goes — savings, investments, debt payoff. Visualize your freelance wealth trajectory.</p></div>
+    <div class="feature-card fade-up"><div class="feature-icon">&#129534;</div><h3>Receipt Vault</h3><p>Snap a receipt, AI extracts the data, auto-matches to your bank transactions. Tax-ready documentation.</p></div>
+    <div class="feature-card fade-up"><div class="feature-icon">&#128228;</div><h3>CPA Export</h3><p>One-click CSV export mapped to IRS Schedule C line items. Hand your CPA organized data, save hours and fees.</p></div>
+  </div>
+</section>
+<section class="pricing" id="pricing">
+  <div class="section-header fade-up">
+    <h2>Less than one forgotten subscription</h2>
+    <p>Financial Janitor pays for itself in the first month.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card fade-up">
+      <div class="price-tier">Free</div>
+      <div class="price-amount">$0<span>/mo</span></div>
+      <div class="price-desc">Try it. Link a bank. See what you're leaking.</div>
+      <ul class="price-features"><li>1 bank account via Plaid</li><li>30-day transaction history</li><li>Basic subscription tracking</li><li>Monthly leak total</li></ul>
+      <button class="price-btn outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Get Started Free</button>
+    </div>
+    <div class="price-card featured fade-up">
+      <div class="price-tier">Premium</div>
+      <div class="price-amount">$7<span>.99/mo</span></div>
+      <div class="price-desc">Full visibility. Fix the leaks. Build your wealth view.</div>
+      <ul class="price-features"><li>Everything in Free</li><li>Disposable income breakdown</li><li>Wealth projection engine</li><li>Ghost Shield alerts</li><li>Full transaction history</li><li>Budget analysis</li></ul>
+      <button class="price-btn primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
+    </div>
+    <div class="price-card fade-up">
+      <div class="price-tier">Pro</div>
+      <div class="price-amount">$19<span>.99/mo</span></div>
+      <div class="price-desc">AI-powered tax optimization for serious freelancers.</div>
+      <ul class="price-features"><li>Everything in Premium</li><li>AI transaction categorization</li><li>IRS Schedule C export</li><li>Tax deduction scanner</li><li>Unlimited bank accounts</li><li>Mark as Business Account</li><li>Receipt Vault with AI OCR</li></ul>
+      <button class="price-btn outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
+    </div>
+  </div>
+</section>
+<section class="roadmap" id="roadmap">
+  <div class="section-header fade-up">
+    <h2>What we're building</h2>
+    <p>Financial Janitor is actively developed. Here's what's live and what's coming next.</p>
+  </div>
+  <div class="roadmap-timeline fade-up">
+    <div class="roadmap-item done"><div class="roadmap-dot"></div><div class="roadmap-phase">Launched</div><div class="roadmap-title">Plaid bank sync + subscription tracking</div><div class="roadmap-desc">Link US bank accounts, view transactions, detect recurring charges.</div><span class="roadmap-tag tag-done">Live</span></div>
+    <div class="roadmap-item done"><div class="roadmap-dot"></div><div class="roadmap-phase">Launched</div><div class="roadmap-title">AI-powered tax deduction scanner</div><div class="roadmap-desc">Gemini-powered Schedule C categorization with confidence scoring and CPA export.</div><span class="roadmap-tag tag-done">Live</span></div>
+    <div class="roadmap-item done"><div class="roadmap-dot"></div><div class="roadmap-phase">Launched</div><div class="roadmap-title">Receipt Vault with OCR</div><div class="roadmap-desc">Snap receipts, AI extracts merchant + amount, auto-matches to bank transactions.</div><span class="roadmap-tag tag-done">Live</span></div>
+    <div class="roadmap-item next"><div class="roadmap-dot"></div><div class="roadmap-phase">Building now</div><div class="roadmap-title">Ghost Shield auto-alerts</div><div class="roadmap-desc">Push notifications before recurring charges hit. Cancel forgotten subscriptions before they drain you.</div><span class="roadmap-tag tag-building">In progress</span></div>
+    <div class="roadmap-item"><div class="roadmap-dot"></div><div class="roadmap-phase">Coming Q3 2026</div><div class="roadmap-title">Wealth projection + debt vs. invest engine</div><div class="roadmap-desc">Visualize your freelance wealth trajectory. Compare debt payoff vs. investment scenarios.</div><span class="roadmap-tag tag-soon">Planned</span></div>
+    <div class="roadmap-item"><div class="roadmap-dot"></div><div class="roadmap-phase">Coming Q4 2026</div><div class="roadmap-title">Family package + household view</div><div class="roadmap-desc">Invite a partner. Shared dashboard for household income, leaks, and budgeting.</div><span class="roadmap-tag tag-soon">Planned</span></div>
+  </div>
+</section>
+<section class="trust fade-up">
+  <div class="trust-grid">
+    <div class="trust-item"><span style="color:var(--accent)">&#128274;</span> Bank-level encryption via Plaid</div>
+    <div class="trust-item"><span style="color:var(--accent)">&#128737;&#65039;</span> Firebase App Check enforced</div>
+    <div class="trust-item"><span style="color:var(--accent)">&#128203;</span> IRS Schedule C guidelines</div>
+    <div class="trust-item"><span style="color:var(--amber)">&#9888;&#65039;</span> Not tax advice — always confirm with a CPA</div>
+  </div>
+</section>
+<section class="bottom-cta" id="cta">
+  <h2 class="fade-up">Ready to stop leaking money?</h2>
+  <p class="fade-up">Join the waitlist. Be first to know when Financial Janitor launches.</p>
+  <form id="waitlistForm" class="fade-up" style="display:flex;flex-direction:column;gap:.75rem;max-width:420px;margin:0 auto;width:100%" action="#" method="post">
+    <div style="display:flex;gap:.75rem;width:100%;flex-wrap:wrap">
+      <input type="email" id="waitlistEmail" name="email" autocomplete="email" placeholder="you@freelancer.com" aria-label="Email address" style="flex:1;min-width:180px;padding:.8rem 1rem;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-family:var(--font);font-size:.9rem;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+      <button type="submit" id="waitlistBtn" class="hero-cta" style="white-space:nowrap">Join Waitlist</button>
+    </div>
+    <div id="waitlistMsg" role="status" aria-live="polite" style="min-height:1.25rem;font-size:.85rem;text-align:center;display:none"></div>
+  </form>
+</section>
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand"><div class="logo">Financial<span>Janitor</span></div><p>The fintech app for US freelancers who are tired of leaking money.</p></div>
+    <div class="footer-links">
+      <div class="footer-col"><h4>Product</h4><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#roadmap">Roadmap</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></div>
+      <div class="footer-col"><h4>Contact</h4><a href="mailto:support.financialjanitor@gmail.com">support.financialjanitor@gmail.com</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Financial Janitor. All rights reserved.</p>
+    <p class="footer-disclaimer">Financial Janitor provides estimates and tools — not tax, legal, or investment advice. All tax calculations are based on IRS Schedule C guidelines and should be confirmed with a licensed CPA. Projections are hypothetical. Past performance does not guarantee future results.</p>
+  </div>
+</footer>
+<script>
+function animateCounter(){var e=document.getElementById("leakCounter"),t=2400,n=2e3,a=performance.now();!function o(r){var i=Math.min((r-a)/n,1),s=1-Math.pow(1-i,3);e.textContent="$"+Math.round(t*s).toLocaleString(),i<1&&requestAnimationFrame(o)}(a)}
+var obs=new IntersectionObserver(function(e){e.forEach(function(e){e.isIntersecting&&(e.target.classList.add("visible"),e.target.querySelector("#leakCounter")&&animateCounter())})},{threshold:.15});
+document.querySelectorAll(".fade-up").forEach(function(e){obs.observe(e)});
+(function () {
+  var WAITLIST_URL = "https://us-central1-financial-janitor-sky.cloudfunctions.net/addToWaitlist";
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var form = document.getElementById("waitlistForm");
+  if (!form) return;
+  var emailInput = document.getElementById("waitlistEmail");
+  var btn = document.getElementById("waitlistBtn");
+  var msg = document.getElementById("waitlistMsg");
+  function setMsg(text, isError) {
+    msg.textContent = text;
+    msg.style.display = text ? "block" : "none";
+    msg.style.color = isError ? "#FF3B30" : "#39FF14";
+  }
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    if (btn.disabled) return;
+    var raw = (emailInput.value || "").trim();
+    var email = raw.toLowerCase();
+    if (!email || !EMAIL_RE.test(email)) {
+      setMsg("Please enter a valid email address.", true);
+      return;
+    }
+    if (email.length > 320) {
+      setMsg("Email is too long.", true);
+      return;
+    }
+    setMsg("");
+    btn.disabled = true;
+    btn.textContent = "Joining...";
+    try {
+      var res = await fetch(WAITLIST_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email, source: "landing_page" }),
+      });
+      var data = null;
+      try {
+        data = await res.json();
+      } catch (_) {}
+      if (res.ok) {
+        setMsg("You're on the list!", false);
+        emailInput.disabled = true;
+        btn.textContent = "You're In!";
+        btn.disabled = true;
+      } else {
+        var err = (data && data.error) || "Something went wrong. Please try again.";
+        setMsg(err, true);
+        btn.disabled = false;
+        btn.textContent = "Join Waitlist";
+      }
+    } catch (_) {
+      setMsg("Something went wrong. Please try again.", true);
+      btn.disabled = false;
+      btn.textContent = "Join Waitlist";
+    }
+  });
+})();
+</script>
+</body>
+</html>
