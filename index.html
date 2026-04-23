@@ -45,6 +45,14 @@ nav a{color:var(--muted);text-decoration:none;font-size:.875rem;transition:color
 .price-card.featured{border-color:var(--accent)}.price-card.featured::before{content:'MOST POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#050505;font-size:.65rem;font-weight:700;padding:.3rem .8rem;border-radius:100px;letter-spacing:.08em}
 .price-tier{font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
 .price-amount{font-size:2.5rem;font-weight:700;margin-bottom:.25rem}.price-amount span{font-size:1rem;color:var(--muted);font-weight:400}
+.billing-toggle-wrap{display:flex;justify-content:center;margin-bottom:2.5rem}
+.billing-toggle{display:inline-flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--card)}
+.billing-toggle-btn{padding:.65rem 1.75rem;font-family:var(--font);font-size:.875rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:background .2s,color .2s}
+.billing-toggle-btn:hover{color:var(--text)}
+.billing-toggle-btn.active{background:rgba(57,255,20,.14);color:var(--accent);box-shadow:inset 0 0 0 1px rgba(57,255,20,.35)}
+.price-trial{font-size:.75rem;color:var(--muted);margin-top:.35rem;margin-bottom:.5rem;line-height:1.4}
+.price-billed{font-size:.8rem;color:var(--muted);margin-bottom:.35rem;line-height:1.4}
+.price-upgrade-hint{font-size:.8rem;color:var(--accent);margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);line-height:1.45}
 .price-desc{font-size:.85rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.5}
 .price-features{list-style:none;margin-bottom:2rem}.price-features li{font-size:.85rem;color:var(--muted);padding:.4rem 0;display:flex;align-items:center;gap:.5rem}.price-features li::before{content:'✓';color:var(--accent);font-weight:700;font-size:.75rem}
 .price-btn{width:100%;padding:.75rem;border-radius:8px;font-weight:600;font-size:.875rem;cursor:pointer;transition:all .2s;font-family:var(--font);border:none}
@@ -123,24 +131,47 @@ footer{border-top:1px solid var(--border);padding:2.5rem 2rem;max-width:1000px;m
     <h2>Less than one forgotten subscription</h2>
     <p>Financial Janitor pays for itself in the first month.</p>
   </div>
+  <div class="billing-toggle-wrap fade-up">
+    <div class="billing-toggle" role="group" aria-label="Billing period">
+      <button type="button" class="billing-toggle-btn active" id="planMonthly" aria-pressed="true">Monthly</button>
+      <button type="button" class="billing-toggle-btn" id="planAnnual" aria-pressed="false">Annual</button>
+    </div>
+  </div>
   <div class="pricing-grid">
     <div class="price-card fade-up">
       <div class="price-tier">Free</div>
       <div class="price-amount">$0<span>/mo</span></div>
       <div class="price-desc">Try it. Link a bank. See what you're leaking.</div>
-      <ul class="price-features"><li>1 bank account via Plaid</li><li>30-day transaction history</li><li>Basic subscription tracking</li><li>Monthly leak total</li></ul>
+      <ul class="price-features"><li>30-day bank connection trial (via Plaid)</li><li>See your real spending leaks</li><li>Basic subscription tracking</li><li>Monthly leak total</li></ul>
+      <p class="price-upgrade-hint">→ Upgrade to stay connected after 30 days</p>
       <button class="price-btn outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Get Started Free</button>
     </div>
     <div class="price-card featured fade-up">
       <div class="price-tier">Premium</div>
-      <div class="price-amount">$7<span>.99/mo</span></div>
+      <div data-plan-display="monthly">
+        <div class="price-amount">$7<span>.99/mo</span></div>
+        <p class="price-trial">7-day free trial — cancel anytime</p>
+      </div>
+      <div data-plan-display="annual" style="display:none">
+        <div class="price-amount">$6<span>.25/mo</span></div>
+        <p class="price-billed">billed $75/yr — save 22%</p>
+        <p class="price-trial">7-day free trial — cancel anytime</p>
+      </div>
       <div class="price-desc">Full visibility. Fix the leaks. Build your wealth view.</div>
       <ul class="price-features"><li>Everything in Free</li><li>Disposable income breakdown</li><li>Wealth projection engine</li><li>Ghost Shield alerts</li><li>Full transaction history</li><li>Budget analysis</li></ul>
       <button class="price-btn primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
     </div>
     <div class="price-card fade-up">
       <div class="price-tier">Pro</div>
-      <div class="price-amount">$19<span>.99/mo</span></div>
+      <div data-plan-display="monthly">
+        <div class="price-amount">$17<span>.99/mo</span></div>
+        <p class="price-trial">7-day free trial — cancel anytime</p>
+      </div>
+      <div data-plan-display="annual" style="display:none">
+        <div class="price-amount">$14<span>/mo</span></div>
+        <p class="price-billed">billed $168/yr — save 22%</p>
+        <p class="price-trial">7-day free trial — cancel anytime</p>
+      </div>
       <div class="price-desc">AI-powered tax optimization for serious freelancers.</div>
       <ul class="price-features"><li>Everything in Premium</li><li>AI transaction categorization</li><li>IRS Schedule C export</li><li>Tax deduction scanner</li><li>Unlimited bank accounts</li><li>Mark as Business Account</li><li>Receipt Vault with AI OCR</li></ul>
       <button class="price-btn outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
@@ -185,7 +216,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 2rem;max-width:1000px;m
     <div class="footer-brand"><div class="logo">Financial<span>Janitor</span></div><p>The fintech app for US freelancers who are tired of leaking money.</p></div>
     <div class="footer-links">
       <div class="footer-col"><h4>Product</h4><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#roadmap">Roadmap</a></div>
-      <div class="footer-col"><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="refund.html">Refund Policy</a></div>
       <div class="footer-col"><h4>Contact</h4><a href="mailto:support.financialjanitor@gmail.com">support.financialjanitor@gmail.com</a></div>
     </div>
   </div>
@@ -255,6 +286,9 @@ document.querySelectorAll(".fade-up").forEach(function(e){obs.observe(e)});
     }
   });
 })();
+function setBillingMode(e){document.getElementById("planMonthly").classList.toggle("active",!e);document.getElementById("planAnnual").classList.toggle("active",e);document.getElementById("planMonthly").setAttribute("aria-pressed",String(!e));document.getElementById("planAnnual").setAttribute("aria-pressed",String(e));document.querySelectorAll('[data-plan-display="monthly"]').forEach(function(t){t.style.display=e?"none":"block"});document.querySelectorAll('[data-plan-display="annual"]').forEach(function(t){t.style.display=e?"block":"none"})}
+document.getElementById("planMonthly").addEventListener("click",function(){setBillingMode(false)});
+document.getElementById("planAnnual").addEventListener("click",function(){setBillingMode(true)})
 </script>
 </body>
 </html>
